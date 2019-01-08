@@ -1,0 +1,15 @@
+{
+    "name": "wewillapp/format-response",
+    "description": "fortmat response for Laravel framework",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Wewillapp": "src/"
+        }
+    }
+}
