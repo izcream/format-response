@@ -9,7 +9,7 @@ if ($request->wantsJson()) {
     return \Wewillapp\FormatResponse::render($exception);
 }
 ```
-2. Add Alias in `config/app.php
+2. Add Alias in `config/app.php`
 
 ```php
     "aliases" => [
