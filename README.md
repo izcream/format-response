@@ -9,7 +9,14 @@ if ($request->wantsJson()) {
     return \Wewillapp\FormatResponse::render($exception);
 }
 ```
+2. Add Alias in `config/app.php
 
+```php
+    "aliases" => [
+        //aliases
+        'FormatResponse' => \Wewillapp\FormatResponse::class
+    ]
+```
 
 Copy &copy; 2019 [Wewillapp](https://www.wewillapp.com) All right Reserved. Created by Natakorn Chanasumon
 

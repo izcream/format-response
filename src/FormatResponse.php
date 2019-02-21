@@ -6,7 +6,15 @@ use Illuminate\Validation\ValidationException;
 
 class FormatResponse
 {
-    private static function error($message, $statusCode = 400)
+    public static function success($data = [], $message = null, $statusCode = 200)
+    {
+        $response['data'] = $data;
+        if (!is_null($message)) {
+            $response['message'] = $message;
+        }
+        return response()->json($response, $statusCode);
+    }
+    public static function error($message, $statusCode = 400)
     {
         return response()->json([
             'errors' => [
