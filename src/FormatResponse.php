@@ -59,6 +59,9 @@ class FormatResponse
         if (method_exists($exception, 'getStatusCode')) {
             $statusCode = $exception->getStatusCode();
         }
+        if (method_exists($exception, 'getCode')) {
+            $statusCode = $exception->getCode();
+        }
         if (method_exists($exception, 'getMessage')) {
             $message = strtoupper(snake_case($exception->getMessage()));
         }
