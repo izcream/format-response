@@ -96,12 +96,15 @@ class FormatResponse
             Log::error("API ERROR: ".$message." FILE: ".$errorFile. " LINE: ".$errorLine);
 
             return response()->json([
-                'message' => $message,
-                'statusCode' => $statusCode,
-                'detail' => [
-                    'file' => $errorFile,
-                    'line' => $errorLine
+                'errors' => [
+                    'message' => $message,
+                    'statusCode' => $statusCode,
+                    'detail' => [
+                        'file' => $errorFile,
+                        'line' => $errorLine
+                    ]
                 ]
+
             ], $statusCode);
         }
         return self::error($message, $statusCode);
