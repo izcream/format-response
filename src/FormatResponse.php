@@ -19,9 +19,11 @@ class FormatResponse
      *
      * @return  Json               Response Data (Formatted)
      */
-    public static function success($data = [], $message = null, $statusCode = 200)
+    public static function success($data = null, $message = null, $statusCode = 200)
     {
-        $response['data'] = $data;
+        if (!is_null($data)) {
+            $response['data'] = $data;
+        }
         if (!is_null($message)) {
             $response['message'] = $message;
         }
@@ -55,12 +57,11 @@ class FormatResponse
     {
         $statusCode = 500;
         $message = "SOMETHING_WENT_WRONG";
-
         if (method_exists($exception, 'getStatusCode')) {
             $statusCode = $exception->getStatusCode();
         }
         if (method_exists($exception, 'getCode')) {
-            $statusCode = $exception->getCode();
+            $statusCode = $exception->getCode() == 0 ? 500 : $exception->getCode();
         }
         if (method_exists($exception, 'getMessage')) {
             $message = strtoupper(snake_case($exception->getMessage()));
@@ -79,6 +80,9 @@ class FormatResponse
             case 405:
                 $message = "METHOD_NOT_ALLOWED";
                 break;
+            default:
+                $statusCode = 500;
+                break;
         }
 
         if ($exception instanceof ModelNotFoundException) {
@@ -92,10 +96,9 @@ class FormatResponse
             $statusCode = 401;
         }
 
-        if (env('APP_DEBUG')) {
+        if (env('APP_DEBUG') == true) {
             $errorFile = $exception->getFile();
             $errorLine = $exception->getLine();
-
             Log::error("API ERROR: ".$message." FILE: ".$errorFile. " LINE: ".$errorLine);
 
             return response()->json([
@@ -104,10 +107,10 @@ class FormatResponse
                     'statusCode' => $statusCode,
                     'detail' => [
                         'file' => $errorFile,
-                        'line' => $errorLine
+                        'line' => $errorLine,
+                        'rawMessage' => $exception->getMessage()
                     ]
                 ]
-
             ], $statusCode);
         }
         return self::error($message, $statusCode);
