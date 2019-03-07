@@ -55,18 +55,12 @@ class FormatResponse
      */
     public static function render($exception)
     {
-        $statusCode = 500;
-        $message = "SOMETHING_WENT_WRONG";
         if (method_exists($exception, 'getStatusCode')) {
             $statusCode = $exception->getStatusCode();
         }
         if (method_exists($exception, 'getCode')) {
             $statusCode = $exception->getCode() == 0 ? 500 : $exception->getCode();
         }
-        if (method_exists($exception, 'getMessage')) {
-            $message = strtoupper(snake_case($exception->getMessage()));
-        }
-
         switch ($statusCode) {
             case 404:
                 $message = "NOT_FOUND";
@@ -82,7 +76,11 @@ class FormatResponse
                 break;
             default:
                 $statusCode = 500;
+                $message = "SOMETHING_WENT_WRONG";
                 break;
+        }
+        if (method_exists($exception, 'getMessage')) {
+            $message = strtoupper(snake_case($exception->getMessage()));
         }
 
         if ($exception instanceof ModelNotFoundException) {
