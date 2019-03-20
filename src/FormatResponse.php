@@ -55,7 +55,8 @@ class FormatResponse
      */
     public static function render($exception)
     {
-
+        $statusCode = 0;
+        $message = '';
         if (method_exists($exception, 'getCode')) {
             $statusCode = $exception->getCode();
         }
