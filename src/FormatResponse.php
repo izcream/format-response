@@ -88,7 +88,7 @@ class FormatResponse
             $statusCode = 404;
         } if ($exception instanceof ValidationException) {
             $statusCode = isset($exception->status) ? $exception->status : 422;
-            $message = $exception->validator->errors()->first();
+            $message = ucwords($exception->validator->errors()->first());
         } if ($exception instanceof AuthenticationException) {
             $statusCode = 401;
         } if ($exception instanceof MethodNotAllowedException) {
