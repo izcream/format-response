@@ -76,7 +76,7 @@ class FormatResponse
                 $message = "Forbidden";
                 break;
             case 405:
-                $message = "Method Not Allowed";
+                $message = $exception->getMessage();
                 break;
             default:
                 $statusCode = 500;
@@ -86,13 +86,15 @@ class FormatResponse
 
         if ($exception instanceof ModelNotFoundException) {
             $statusCode = 404;
+            $message = $exception->getMessage();
         } if ($exception instanceof ValidationException) {
             $statusCode = isset($exception->status) ? $exception->status : 422;
             $message = ucwords($exception->validator->errors()->first());
         } if ($exception instanceof AuthenticationException) {
             $statusCode = 401;
+            $message = $exception->getMessage();
         } if ($exception instanceof MethodNotAllowedException) {
-            $statusCode = 401;
+            $statusCode = 405;
         }
 
         if (env('APP_DEBUG') == true) {
