@@ -55,39 +55,40 @@ class FormatResponse
      */
     public static function render($exception)
     {
+
+        if (method_exists($exception, 'getCode')) {
+            $statusCode = $exception->getCode();
+        }
         if (method_exists($exception, 'getStatusCode')) {
             $statusCode = $exception->getStatusCode();
         }
-        if (method_exists($exception, 'getCode')) {
-            $statusCode = $exception->getCode() == 0 ? 500 : $exception->getCode();
+        if (method_exists($exception, 'getMessage')) {
+            $message = $exception->getMessage();
         }
         switch ($statusCode) {
             case 404:
-                $message = "NOT_FOUND";
+                $message = "Not Found";
                 break;
             case 401:
-                $message = "UNAUTHORIZED";
+                $message = "Unauthorized";
                 break;
             case 403:
-                $message = "FORBIDDEN";
+                $message = "Forbidden";
                 break;
             case 405:
-                $message = "METHOD_NOT_ALLOWED";
+                $message = "Method Not Allowed";
                 break;
             default:
                 $statusCode = 500;
-                $message = "SOMETHING_WENT_WRONG";
+                $message = "Something Went Wrong";
                 break;
-        }
-        if (method_exists($exception, 'getMessage')) {
-            $message = strtoupper(snake_case($exception->getMessage()));
         }
 
         if ($exception instanceof ModelNotFoundException) {
             $statusCode = 404;
         } if ($exception instanceof ValidationException) {
             $statusCode = isset($exception->status) ? $exception->status : 422;
-            $message = snake_case($exception->validator->errors()->first());
+            $message = $exception->validator->errors()->first();
         } if ($exception instanceof AuthenticationException) {
             $statusCode = 401;
         } if ($exception instanceof MethodNotAllowedException) {
