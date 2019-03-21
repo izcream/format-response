@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Exception;
 use Log;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Illuminate\Database\QueryException;
 
 class FormatResponse
 {
@@ -55,33 +56,29 @@ class FormatResponse
      */
     public static function render($exception)
     {
-        $statusCode = 0;
-        $message = '';
+        // dd($exception);
+        $statusCode = 500;
+        $message = $exception->getMessage();
         if (method_exists($exception, 'getCode')) {
             $statusCode = $exception->getCode();
         }
         if (method_exists($exception, 'getStatusCode')) {
             $statusCode = $exception->getStatusCode();
         }
-        if (method_exists($exception, 'getMessage')) {
-            $message = $exception->getMessage();
-        }
         switch ($statusCode) {
-            case 404:
-                $message = "Not Found";
-                break;
-            case 401:
-                $message = "Unauthorized";
-                break;
             case 403:
                 $message = "Forbidden";
                 break;
             case 405:
                 $message = $exception->getMessage();
                 break;
-            default:
+            case 500:
+            case 0:
+                $message = $exception->getMessage();
                 $statusCode = 500;
-                $message = "Something Went Wrong";
+                break;
+            default:
+                $message = $exception->getMessage();
                 break;
         }
 
@@ -96,6 +93,10 @@ class FormatResponse
             $message = $exception->getMessage();
         } if ($exception instanceof MethodNotAllowedException) {
             $statusCode = 405;
+        }
+        if ($exception instanceof QueryException) {
+            $statusCode = 500;
+            $message = $exception->getMessage();
         }
 
         if (env('APP_DEBUG') == true) {
