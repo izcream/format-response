@@ -56,7 +56,7 @@ class FormatResponse
      */
     public static function render($exception)
     {
-        // dd($exception);
+        dd($exception);
         $statusCode = 500;
         $message = $exception->getMessage();
         if (method_exists($exception, 'getCode')) {
@@ -74,6 +74,7 @@ class FormatResponse
                 break;
             case 500:
             case 0:
+            case -1:
                 $message = $exception->getMessage();
                 $statusCode = 500;
                 break;
