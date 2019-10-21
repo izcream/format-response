@@ -67,7 +67,9 @@ class FormatResponse
         }
         switch ($statusCode) {
             case 403:
-                $message = "Forbidden";
+                $message = empty(!$exception->getMessage())
+                    ? $exception->getMessage()
+                    : "Forbidden";
                 break;
             case 405:
                 $message = $exception->getMessage();
