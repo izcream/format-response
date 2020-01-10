@@ -4,17 +4,17 @@
     "type": "library",
     "license": "MIT",
     "minimum-stability": "dev",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "master"
-        }
-    },
     "require": {
         "php": ">=7.0"
     },
     "autoload": {
         "psr-0": {
             "Wewillapp": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
         }
     }
 }
