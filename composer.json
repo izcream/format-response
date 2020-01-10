@@ -3,7 +3,7 @@
     "description": "fortmat response for Laravel framework",
     "type": "library",
     "license": "MIT",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "php": ">=7.0"
     },
