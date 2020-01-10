@@ -11,10 +11,5 @@
         "psr-0": {
             "Wewillapp": "src/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "dev-master"
-        }
     }
 }
