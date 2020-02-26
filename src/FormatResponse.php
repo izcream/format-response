@@ -67,39 +67,38 @@ class FormatResponse
         }
         switch ($statusCode) {
             case 403:
-                $message = empty(!$exception->getMessage())
-                    ? $exception->getMessage()
-                    : "Forbidden";
+                $message = 'forbidden';
                 break;
             case 405:
-                $message = $exception->getMessage();
+                $message = 'method not allowed';
                 break;
             case 500:
             case 0:
             case -1:
-                $message = $exception->getMessage();
+                $message = 'something went wrong';
                 $statusCode = 500;
                 break;
             default:
-                $message = $exception->getMessage();
+                $message = 'unknow error';
                 break;
         }
 
         if ($exception instanceof ModelNotFoundException) {
             $statusCode = 404;
-            $message = $exception->getMessage();
+            $message = 'not found';
         } if ($exception instanceof ValidationException) {
             $statusCode = isset($exception->status) ? $exception->status : 422;
             $message = $exception->validator->errors()->first();
         } if ($exception instanceof AuthenticationException) {
             $statusCode = 401;
-            $message = $exception->getMessage();
+            $message = 'unauthorized';
         } if ($exception instanceof MethodNotAllowedException) {
             $statusCode = 405;
+            $message = 'unauthorized';
         }
         if ($exception instanceof QueryException) {
             $statusCode = 500;
-            $message = $exception->getMessage();
+            $message = 'something went wrong';
         }
 
         if (env('APP_DEBUG') == true) {
