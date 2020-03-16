@@ -78,6 +78,8 @@ class FormatResponse
             $statusCode = 500;
             $message = 'something went wrong';
         }
+        $statusCode = $statusCode <= 0 ? 500 : $statusCode;
+
         $message = $this->errorMessages[$statusCode];
 
         if (env('APP_DEBUG') == true) {
