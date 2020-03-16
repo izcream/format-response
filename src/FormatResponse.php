@@ -1,13 +1,8 @@
 <?php
 namespace Wewillapp;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\AuthenticationException;
-use Exception;
-use Log;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Illuminate\Database\QueryException;
+use Illuminate\Validation\ValidationException;
 
 class FormatResponse
 {
@@ -19,7 +14,7 @@ class FormatResponse
         403 => 'Forbidden',
         404 => 'Not Found',
         405 => 'Method Not Allowed',
-        500 => 'Internal Server Error'
+        500 => 'Internal Server Error',
     ];
     /**
      * Format Success Response
@@ -53,7 +48,7 @@ class FormatResponse
         return response()->json([
             'errors' => [
                 'message' => $message,
-                'statusCode' => $statusCode
+                'statusCode' => $statusCode,
             ],
         ], $statusCode);
     }
@@ -96,9 +91,9 @@ class FormatResponse
                     'detail' => [
                         'file' => $errorFile,
                         'line' => $errorLine,
-                        'rawMessage' => $exception->getMessage()
-                    ]
-                ]
+                        'rawMessage' => $exception->getMessage(),
+                    ],
+                ],
             ], $statusCode);
         }
         return self::error($message, $statusCode);
